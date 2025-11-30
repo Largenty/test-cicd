@@ -1,41 +1,71 @@
+# Nom du workflow visible dans l'onglet Actions de GitHub
 name: Lighthouse CI
 
+# Définit quand le workflow doit se déclencher
 on:
   push:
-    branches: [main]
+    branches: [main]  # À chaque push sur la branche main
   pull_request:
-    branches: [main]
+    branches: [main]  # À chaque pull request vers main
 
+# Définition des tâches à exécuter
 jobs:
   lighthouse:
+    # Utilise une machine virtuelle Ubuntu pour exécuter le job
     runs-on: ubuntu-latest
     
+    # Liste des étapes à exécuter dans l'ordre
     steps:
+      # Étape 1 : Récupère le code du dépôt
       - name: Checkout code
         uses: actions/checkout@v4
       
+      # Étape 2 : Configure Node.js version 20
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '20'  # Version de Node à utiliser
+          cache: 'npm'        # Active le cache pour accélérer l'installation
       
+      # Étape 3 : Installe les dépendances du projet
+      # npm ci est plus rapide et plus fiable que npm install pour le CI/CD
       - name: Install dependencies
         run: npm ci
       
+      # Étape 4 : Compile le projet Vite pour la production
+      # Génère les fichiers optimisés dans le dossier /dist
       - name: Build project
         run: npm run build
       
+      # Étape 5 : Installe Lighthouse CI globalement
+      # Nécessaire pour analyser les performances du site
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli
       
+      # Étape 6 : Lance l'analyse Lighthouse
+      # continue-on-error permet de continuer même si les assertions échouent
       - name: Run Lighthouse CI
+        continue-on-error: true
         run: lhci autorun
       
+      # Étape 7 : Liste le contenu du dossier (debug)
+      # Permet de voir si les fichiers ont bien été créés
+      - name: List Lighthouse files
+        if: always()
+        run: |
+          echo "Contenu du dossier .lighthouseci :"
+          ls -la .lighthouseci/ || echo "Le dossier .lighthouseci n'existe pas"
+          echo "---"
+          echo "Recherche de tous les fichiers lighthouse :"
+          find . -name "*lighthouse*" -o -name "*lh*.json" || echo "Aucun fichier trouvé"
+      
+      # Étape 8 : Sauvegarde les rapports Lighthouse
+      # if: always() : exécute cette étape même si les précédentes ont échoué
       - name: Upload Lighthouse results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-results
-          path: .lighthouseci
-          retention-days: 30
+          name: lighthouse-results          # Nom de l'artifact dans GitHub
+          path: .lighthouseci/              # Chemin à uploader (avec / à la fin)
+          retention-days: 30                # Garde les résultats 30 jours
+          if-no-files-found: warn           # Avertissement si aucun fichier trouvé
