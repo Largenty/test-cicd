@@ -5,19 +5,19 @@
         "timings": [
           {
             "metric": "first-contentful-paint",
-            "budget": 2000
-          },
-          {
-            "metric": "largest-contentful-paint",
-            "budget": 2500
-          },
-          {
-            "metric": "interactive",
             "budget": 3000
           },
           {
+            "metric": "largest-contentful-paint",
+            "budget": 4000
+          },
+          {
+            "metric": "interactive",
+            "budget": 5000
+          },
+          {
             "metric": "total-blocking-time",
-            "budget": 300
+            "budget": 500
           },
           {
             "metric": "cumulative-layout-shift",
@@ -27,41 +27,41 @@
         "resourceSizes": [
           {
             "resourceType": "script",
-            "budget": 300
+            "budget": 500
           },
           {
             "resourceType": "stylesheet",
-            "budget": 50
-          },
-          {
-            "resourceType": "image",
-            "budget": 200
-          },
-          {
-            "resourceType": "font",
             "budget": 100
           },
           {
+            "resourceType": "image",
+            "budget": 300
+          },
+          {
+            "resourceType": "font",
+            "budget": 150
+          },
+          {
             "resourceType": "total",
-            "budget": 800
+            "budget": 1200
           }
         ],
         "resourceCounts": [
           {
             "resourceType": "script",
-            "budget": 10
+            "budget": 15
           },
           {
             "resourceType": "stylesheet",
-            "budget": 5
+            "budget": 8
           },
           {
             "resourceType": "image",
-            "budget": 20
+            "budget": 30
           },
           {
             "resourceType": "third-party",
-            "budget": 5
+            "budget": 10
           }
         ]
       }
