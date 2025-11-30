@@ -9,10 +9,10 @@
       },
       "assert": {
         "assertions": {
-          "categories:performance": ["warn", {"minScore": 0.8}],
-          "categories:accessibility": ["warn", {"minScore": 0.8}],
-          "categories:best-practices": ["warn", {"minScore": 0.9}],
-          "categories:seo": ["warn", {"minScore": 0.7}],
+          "categories:performance": ["errore", {"minScore": 0.9}],
+          "categories:accessibility": ["errore", {"minScore": 0.99}],
+          "categories:best-practices": ["errore", {"minScore": 0.99}],
+          "categories:seo": ["errore", {"minScore": 0.7}],
           "color-contrast": "off",
           "meta-description": "off",
           "network-dependency-tree-insight": "off",
