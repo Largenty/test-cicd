@@ -66,6 +66,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-results          # Nom de l'artifact dans GitHub
-          path: .lighthouseci/              # Chemin à uploader (avec / à la fin)
+          path: ./.lighthouseci/              # Chemin à uploader (avec / à la fin)
           retention-days: 30                # Garde les résultats 30 jours
           if-no-files-found: warn           # Avertissement si aucun fichier trouvé
