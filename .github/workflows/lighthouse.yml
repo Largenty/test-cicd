@@ -43,29 +43,17 @@ jobs:
         run: npm install -g @lhci/cli
       
       # Étape 6 : Lance l'analyse Lighthouse
-      # continue-on-error permet de continuer même si les assertions échouent
+      # SANS continue-on-error → le workflow échouera si assertions non respectées
       - name: Run Lighthouse CI
-        continue-on-error: true
         run: lhci autorun
       
-      # Étape 7 : Liste le contenu du dossier (debug)
-      # Permet de voir si les fichiers ont bien été créés
-      - name: List Lighthouse files
-        if: always()
-        run: |
-          echo "Contenu du dossier .lighthouseci :"
-          ls -la .lighthouseci/ || echo "Le dossier .lighthouseci n'existe pas"
-          echo "---"
-          echo "Recherche de tous les fichiers lighthouse :"
-          find . -name "*lighthouse*" -o -name "*lh*.json" || echo "Aucun fichier trouvé"
-      
-      # Étape 8 : Sauvegarde les rapports Lighthouse
-      # if: always() : exécute cette étape même si les précédentes ont échoué
+      # Étape 7 : Upload des résultats (même en cas d'échec)
+      # if: always() garantit l'exécution même si l'étape précédente échoue
       - name: Upload Lighthouse results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-results          # Nom de l'artifact dans GitHub
-          path: ./.lighthouseci/              # Chemin à uploader (avec / à la fin)
-          retention-days: 30                # Garde les résultats 30 jours
-          if-no-files-found: warn           # Avertissement si aucun fichier trouvé
+          name: lighthouse-results
+          path: .lighthouseci/
+          retention-days: 30
+          if-no-files-found: warn
