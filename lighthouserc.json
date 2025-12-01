@@ -2,7 +2,7 @@
     "ci": {
       "collect": {
         "staticDistDir": "./dist",
-        "numberOfRuns": 5,
+        "numberOfRuns": 3,
         "settings": {
           "preset": "desktop",
           "budgets": "budget.json"
